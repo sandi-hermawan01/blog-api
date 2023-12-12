@@ -17,7 +17,7 @@ import Notification from "./Schema/Notification.js";
 import Comment from "./Schema/Comment.js";
 
 const server = express();
-const PORT = process.env.PORT || 3003;
+const PORT = "https://blog-publisher-v2.vercel.app";
 const slatRounds = 10; // slat rounds for bcryptjs
 
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
