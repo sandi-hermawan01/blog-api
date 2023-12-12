@@ -11,10 +11,10 @@ import aws from "aws-sdk";
 
 // mongoose data schemas.
 
-import User from "./Schema/User.js";
-import Blog from "./Schema/Blog.js";
-import Notification from "./Schema/Notification.js";
-import Comment from "./Schema/Comment.js";
+import User from "../Schema/User.js";
+import Blog from "../Schema/Blog.js";
+import Notification from "../Schema/Notification.js";
+import Comment from "../Schema/Comment.js";
 
 const server = express();
 const PORT = "process.env.PORT || 3003";
@@ -29,7 +29,7 @@ mongoose.connect(process.env.DB_LOCATION, {
 
 // initializing the firebaserun
 
-import serviceAccount from "./blog-publisher-v2.json" assert { type: "json" };
+import serviceAccount from "../blog-publisher-v2.json" assert { type: "json" };
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -37,13 +37,8 @@ admin.initializeApp({
 
 // middlewares
 server.use(express.json()); // enable JSON sharing
-server.use(
-  cors({
-    origin: ["https://blog-api-iota-one.vercel.app"],
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
+server.use(cors());
+
 server.get("/", (req, res) => {
   res.json("Hello");
 });
