@@ -17,7 +17,7 @@ import Notification from "./Schema/Notification.js";
 import Comment from "./Schema/Comment.js";
 
 const server = express();
-const PORT = "https://blog-publisher-v2.vercel.app";
+const PORT = "process.env.PORT || 3003";
 const slatRounds = 10; // slat rounds for bcryptjs
 
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
@@ -37,7 +37,13 @@ admin.initializeApp({
 
 // middlewares
 server.use(express.json()); // enable JSON sharing
-server.use(cors());
+app.use(
+  cors({
+    origin: ["https://blog-publisher-v2.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 // AWS setup
 
