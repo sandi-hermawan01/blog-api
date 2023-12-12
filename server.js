@@ -40,7 +40,7 @@ admin.initializeApp({
 server.use(express.json()); // enable JSON sharing
 server.use(
   cors({
-    origin: ["https://blog-publisher-v2.vercel.app"],
+    origin: ["https://blog-api-iota-one.vercel.app"],
     methods: ["POST", "GET"],
     credentials: true,
   })
