@@ -11,13 +11,13 @@ import aws from "aws-sdk";
 
 // mongoose data schemas.
 
-import User from "../Schema/User.js";
-import Blog from "../Schema/Blog.js";
-import Notification from "../Schema/Notification.js";
-import Comment from "../Schema/Comment.js";
+import User from "./Schema/User.js";
+import Blog from "./Schema/Blog.js";
+import Notification from "./Schema/Notification.js";
+import Comment from "./Schema/Comment.js";
 
 const server = express();
-const PORT = "process.env.PORT || 3003";
+const PORT = process.env.PORT || 3003;
 const slatRounds = 10; // slat rounds for bcryptjs
 
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
@@ -29,7 +29,7 @@ mongoose.connect(process.env.DB_LOCATION, {
 
 // initializing the firebaserun
 
-import serviceAccount from "../blog-publisher-v2.json" assert { type: "json" };
+import serviceAccount from "./blog-publisher-v2.json" assert { type: "json" };
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
