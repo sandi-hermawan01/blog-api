@@ -37,7 +37,7 @@ admin.initializeApp({
 
 // middlewares
 server.use(express.json()); // enable JSON sharing
-app.use(
+server.use(
   cors({
     origin: ["https://blog-publisher-v2.vercel.app"],
     methods: ["POST", "GET"],
