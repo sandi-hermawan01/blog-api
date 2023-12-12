@@ -1,0 +1,16 @@
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YWZkNjEzN2M3OTZiNDgyZTZkNTRmYSIsImlhdCI6MTY4OTI0NTIwM30.zxGI3giBdA-5OwoAOdtNTwJJEPJ9lev0uSp7P8t2gtM
+
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "fullname": "sandi hermawan",
+    "email": "ZsansDev@gmail.com",
+    "password": "%pip_Devtest1"
+}
+
+###
+
+GET http://localhost:3000/account-type
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjAzNjI2ZWFlMmFlYTBiYWRmYmE2MiIsImlhdCI6MTY4OTI3MzE5OX0.W7xUCaNbom59aoFoRzCMnEJ6lWw_Vh2UF2vrknZY1JA
