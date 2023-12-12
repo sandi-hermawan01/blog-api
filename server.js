@@ -44,6 +44,9 @@ app.use(
     credentials: true,
   })
 );
+server.get("/", (req, res) => {
+  res.json("Hello");
+});
 
 // AWS setup
 
