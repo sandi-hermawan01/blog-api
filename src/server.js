@@ -40,7 +40,7 @@ server.use(express.json()); // enable JSON sharing
 server.use(cors());
 
 server.get("/", (req, res) => {
-  res.json("Hello");
+  res.json("Welcome, this is Home Api");
 });
 
 // AWS setup
