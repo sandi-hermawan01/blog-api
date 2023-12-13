@@ -1,4 +1,4 @@
-import express from "../package-lock.json/express";
+import express from "./package.json/express";
 import mongoose from "../package.json/mongoose";
 import bcrypt from "../package.json/bcrypt";
 import jwt from "../package.json/jsonwebtoken";
