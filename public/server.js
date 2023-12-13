@@ -1,14 +1,14 @@
-import express from "../package.json/express";
-import mongoose from "../package.json/mongoose";
-import bcrypt from "../package.json/bcrypt";
-import jwt from "../package.json/jsonwebtoken";
-import cors from "../package.json/cors";
+import express from "express";
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import cors from "cors";
 import "dotenv/config";
-import { nanoid } from "../package.json/nanoid";
-import admin from "../package.json/firebase-admin";
-import { getAuth } from "../package.json/firebase-admin/auth";
-import aws from "../package.json/aws-sdk";
-import rateLimit from "../package.json/express-rate-limit";
+import { nanoid } from "nanoid";
+import admin from "firebase-admin";
+import { getAuth } from "firebase-admin/auth";
+import aws from "aws-sdk";
+import rateLimit from "express-rate-limit";
 
 // mongoose data schemas.
 
