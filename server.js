@@ -29,25 +29,13 @@ mongoose.connect(process.env.DB_LOCATION_LINK, {
 
 // initializing the firebaserun
 
-import serviceAccount from "./blog-publisher-v2.json" assert { type: "json" };
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-
 // middlewares
 server.use(express.json()); // enable JSON sharing
 server.use(cors());
 
 // AWS setup
 
-const s3 = new aws.S3({
-  region: process.env.BUCKET_REGION_ID,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_ID,
-});
-
-server.get("/", async (req, res) => {
+server.get("/", (req, res) => {
   try {
     res.json({
       status: 200,
