@@ -23,7 +23,7 @@ const slatRounds = 10; // slat rounds for bcryptjs
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
 
-mongoose.connect(process.env.DB_LOCATION, {
+mongoose.connect(process.env.DB_LOCATION_LINK, {
   autoIndex: true,
 });
 
@@ -36,9 +36,9 @@ server.use(cors());
 // AWS setup
 
 const s3 = new aws.S3({
-  region: process.env.BUCKET_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.BUCKET_REGION_ID,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_ID,
 });
 
 // functions
@@ -63,7 +63,7 @@ const verifyJWT = (req, res, next) => {
     return res.status(401).json({ error: "No access token" });
   }
 
-  jwt.verify(token, process.env.SECRET_ACCESS_KEY, (err, user) => {
+  jwt.verify(token, process.env.SECRET_ACCESS_KEY_ID, (err, user) => {
     if (err) {
       return res.status(403).json({ error: "Access token is invalid" });
     }
@@ -76,7 +76,7 @@ const verifyJWT = (req, res, next) => {
 const formatLoginDataTojson = (user) => {
   const access_token = jwt.sign(
     { id: user._id },
-    process.env.SECRET_ACCESS_KEY
+    process.env.SECRET_ACCESS_KEY_ID
   );
 
   return {
