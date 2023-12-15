@@ -28,7 +28,10 @@ mongoose.connect(process.env.DB_LOCATION_LINK, {
 });
 
 // initializing the firebaserun
-import serviceAccount from "./blog-publisher-v2-firebase-adminsdk-eaofk-05e7fe5acc.json" assert { type: "json" };
+
+var admin = require("firebase-admin");
+var serviceAccount = require("./blog-publisher-v2-firebase-adminsdk-eaofk-05e7fe5acc.json");
+// import serviceAccount from "./blog-publisher-v2-firebase-adminsdk-eaofk-05e7fe5acc.json" assert { type: "json" };
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
