@@ -28,11 +28,11 @@ mongoose.connect(process.env.DB_LOCATION_LINK, {
 });
 
 // initializing the firebaserun
-import serviceAccount from "blog-publisher-v2.json" assert { type: "json" };
+// import serviceAccount from "./blog-publisher-v2.json" assert { type: "json" };
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
 // middlewares
 server.use(express.json()); // enable JSON sharing
