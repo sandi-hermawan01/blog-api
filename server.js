@@ -31,11 +31,11 @@ mongoose.connect(process.env.DB_LOCATION_LINK, {
 
 // var admin = require("firebase-admin");
 // var serviceAccount = require(serviceAccountLocation);
-import serviceAccount from "./blog-publisher-v2-firebase-adminsdk-eaofk-261b8f5b31.json" assert { type: "json" };
+// import serviceAccount from "./blog-publisher-v2-firebase-adminsdk-eaofk-261b8f5b31.json" assert { type: "json" };
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
 // middlewares
 server.use(express.json()); // enable JSON sharing
