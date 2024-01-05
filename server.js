@@ -23,19 +23,17 @@ const slatRounds = 10; // slat rounds for bcryptjs
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
 
-mongoose.connect(process.env.DB_LOCATION_LINK, {
+mongoose.connect(process.env.DB_LOCATION, {
   autoIndex: true,
 });
 
 // initializing the firebaserun
 
-// var admin = require("firebase-admin");
-// var serviceAccount = require("./blog-publisher-v2-firebase-adminsdk-eaofk-05e7fe5acc.json");
-// // import serviceAccount from "./blog-publisher-v2-firebase-adminsdk-eaofk-05e7fe5acc.json" assert { type: "json" };
+import serviceAccount from "./blog-publisher-v2-firebase-adminsdk-eaofk-261b8f5b31.json" assert { type: "json" };
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 // middlewares
 server.use(express.json()); // enable JSON sharing
@@ -44,9 +42,9 @@ server.use(cors());
 // AWS setup
 
 const s3 = new aws.S3({
-  region: process.env.BUCKET_REGION_ID,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_ID,
+  region: process.env.BUCKET_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
 // functions
@@ -71,7 +69,7 @@ const verifyJWT = (req, res, next) => {
     return res.status(401).json({ error: "No access token" });
   }
 
-  jwt.verify(token, process.env.SECRET_ACCESS_KEY_ID, (err, user) => {
+  jwt.verify(token, process.env.SECRET_ACCESS_KEY, (err, user) => {
     if (err) {
       return res.status(403).json({ error: "Access token is invalid" });
     }
@@ -84,7 +82,7 @@ const verifyJWT = (req, res, next) => {
 const formatLoginDataTojson = (user) => {
   const access_token = jwt.sign(
     { id: user._id },
-    process.env.SECRET_ACCESS_KEY_ID
+    process.env.SECRET_ACCESS_KEY
   );
 
   return {
@@ -656,7 +654,7 @@ server.get("/trending-blogs", (req, res) => {
 server.post("/latest-blogs", (req, res) => {
   let { page } = req.body;
 
-  let maxLimit = 6;
+  let maxLimit = 5;
 
   Blog.find({ draft: false })
     .populate(
@@ -1144,16 +1142,56 @@ server.post("/all-notification-count", verifyJWT, (req, res) => {
     });
 });
 
-server.get("/", (req, res) => {
-  try {
-    res.json({
-      status: 200,
-      message: "Get data has successfully",
+// done
+server.post("/latest-blogs-admin", (req, res) => {
+  let { page } = req.body;
+
+  let maxLimit = 3;
+
+  Blog.find({ draft: false })
+    .populate(
+      "author",
+      "personal_info.profile_img personal_info.username personal_info.fullname -_id"
+    )
+    .sort({ publishedAt: -1 })
+    .select("blog_id title des banner activity tags publishedAt -_id")
+    .skip((page - 1) * maxLimit)
+    .limit(maxLimit)
+    .then((blogs) => {
+      return res.status(200).json({ blogs });
+    })
+    .catch((err) => {
+      return res.status(500).json({ error: err.message });
     });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send("Server error");
-  }
+});
+
+//in progress
+server.post("/latest-users", (req, res) => {
+  let { page } = req.body;
+
+  let maxLimit = 5;
+
+  User.find({ draft: false })
+    .skip((page - 1) * maxLimit)
+    .limit(maxLimit)
+    .then((users) => {
+      return res.status(200).json({ users });
+    })
+    .catch((err) => {
+      return res.status(500).json({ error: err.message });
+    });
+});
+
+//done
+server.post("/all-latest-users-count", (req, res) => {
+  User.countDocuments({})
+    .then((count) => {
+      return res.status(200).json({ totalUsers: count });
+    })
+    .catch((err) => {
+      console.log(err.message);
+      return res.status(500).json({ error: err.message });
+    });
 });
 
 server.listen(PORT, () => {
