@@ -29,11 +29,13 @@ mongoose.connect(process.env.DB_LOCATION_LINK, {
 
 // initializing the firebaserun
 
-import serviceAccount from "./blog-publisher-v2-firebase-adminsdk-eaofk-261b8f5b31.json" assert { type: "json" };
+// var admin = require("firebase-admin");
+// var serviceAccount = require("./blog-publisher-v2-firebase-adminsdk-eaofk-05e7fe5acc.json");
+// // import serviceAccount from "./blog-publisher-v2-firebase-adminsdk-eaofk-05e7fe5acc.json" assert { type: "json" };
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
 // middlewares
 server.use(express.json()); // enable JSON sharing
@@ -654,7 +656,7 @@ server.get("/trending-blogs", (req, res) => {
 server.post("/latest-blogs", (req, res) => {
   let { page } = req.body;
 
-  let maxLimit = 5;
+  let maxLimit = 6;
 
   Blog.find({ draft: false })
     .populate(
@@ -1142,56 +1144,16 @@ server.post("/all-notification-count", verifyJWT, (req, res) => {
     });
 });
 
-// done
-server.post("/latest-blogs-admin", (req, res) => {
-  let { page } = req.body;
-
-  let maxLimit = 3;
-
-  Blog.find({ draft: false })
-    .populate(
-      "author",
-      "personal_info.profile_img personal_info.username personal_info.fullname -_id"
-    )
-    .sort({ publishedAt: -1 })
-    .select("blog_id title des banner activity tags publishedAt -_id")
-    .skip((page - 1) * maxLimit)
-    .limit(maxLimit)
-    .then((blogs) => {
-      return res.status(200).json({ blogs });
-    })
-    .catch((err) => {
-      return res.status(500).json({ error: err.message });
+server.get("/", (req, res) => {
+  try {
+    res.json({
+      status: 200,
+      message: "Get data has successfully",
     });
-});
-
-//in progress
-server.post("/latest-users", (req, res) => {
-  let { page } = req.body;
-
-  let maxLimit = 5;
-
-  User.find({ draft: false })
-    .skip((page - 1) * maxLimit)
-    .limit(maxLimit)
-    .then((users) => {
-      return res.status(200).json({ users });
-    })
-    .catch((err) => {
-      return res.status(500).json({ error: err.message });
-    });
-});
-
-//done
-server.post("/all-latest-users-count", (req, res) => {
-  User.countDocuments({})
-    .then((count) => {
-      return res.status(200).json({ totalUsers: count });
-    })
-    .catch((err) => {
-      console.log(err.message);
-      return res.status(500).json({ error: err.message });
-    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Server error");
+  }
 });
 
 server.listen(PORT, () => {
